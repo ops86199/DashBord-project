@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: monitor-backend
-          image: REPLACE_BACKEND_IMAGE
+          image: ops86199/dashboard-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8081
