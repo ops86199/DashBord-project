@@ -48,7 +48,7 @@ pipeline {
 
         stage('Update kubeconfig for EKS') {
             steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-credentials']]) {
+                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
                     sh "aws eks update-kubeconfig --region us-east-1 --name my-cluster"
                 }
             }
