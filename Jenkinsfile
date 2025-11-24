@@ -49,18 +49,18 @@ pipeline {
         stage('Update kubeconfig for EKS') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
-                    sh "aws eks update-kubeconfig --region us-east-1 --name my-cluster"
-                }
-            }
-        }
+                    
+                    sh "export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                        export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                        export AWS_DEFAULT_REGION=us-east-1
 
-        stage('Deploy to Kubernetes') {
-            steps {
-                    sh """
-                    kubectl apply -f k8s/backend-deployment.yaml
-                    kubectl apply -f k8s/backend-service.yaml
-                    kubectl apply -f k8s/frontend-deployment.yaml
-                    kubectl apply -f k8s/frontend-service.yaml
+                    
+                        aws eks update-kubeconfig --region us-east-1 --name my-cluster
+
+                        kubectl apply -f k8s/backend-deployment.yaml
+                        kubectl apply -f k8s/backend-service.yaml
+                        kubectl apply -f k8s/frontend-deployment.yaml
+                        kubectl apply -f k8s/frontend-service.yaml
                     """
                
             }
