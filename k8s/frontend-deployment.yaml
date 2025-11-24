@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: monitor-frontend
-          image: REPLACE_FRONTEND_IMAGE
+          image: ops86199/dashboard-frontend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 80
