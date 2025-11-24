@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  background: #0f0f0f;
+  font-family: "Poppins", sans-serif;
+  color: #fff;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(10px);
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  border: 1px solid rgba(255,255,255,0.2);
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  padding: 25px;
+}
+
+.heading {
+  text-align: center;
+  font-size: 28px;
+  margin-top: 20px;
+  color: #00eaff;
+}
+
