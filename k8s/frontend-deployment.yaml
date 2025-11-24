@@ -2,8 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: monitor-frontend
-  labels:
-    app: monitor-frontend
 spec:
   replicas: 1
   selector:
@@ -16,27 +14,8 @@ spec:
     spec:
       containers:
         - name: monitor-frontend
-          image: ops86199/dashboard-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: <your-dockerhub-username>/dashboard-frontend:latest
           ports:
-            - containerPort: 80
-          readinessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 5
-            periodSeconds: 5
-          livenessProbe:
-            httpGet:
-              path: /
-              port: 80
-            initialDelaySeconds: 20
-            periodSeconds: 20
-          resources:
-            requests:
-              cpu: "100m"
-              memory: "128Mi"
-            limits:
-              cpu: "500m"
-              memory: "512Mi"
-
+            - containerPort: 3000
+      imagePullSecrets:
+        - name: dockerhub-cred   # only if image is private
