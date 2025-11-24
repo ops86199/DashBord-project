@@ -15,12 +15,11 @@ pipeline {
         }
 
         stage ('Build Backend') {
-            staps {
+            steps {
                 dir('backend') {
                     sh 'mvn clean package -DskipTests'
                 }
             }
-
         }
 
         stage('Build & Push Backend Docker Image') {
