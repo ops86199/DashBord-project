@@ -10,7 +10,7 @@ pipeline {
 
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/your-username/DashBord-project.git', branch: 'main'
+                git url: 'https://github.com/ops86199/DashBord-projecrt.git', branch: 'main'
             }
         }
 
