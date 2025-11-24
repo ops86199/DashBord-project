@@ -14,8 +14,8 @@ spec:
     spec:
       containers:
         - name: monitor-backend
-          image: <your-dockerhub-username>/dashboard-backend:latest
-          ports:
+          image: ops86199/dashboard-backend:latest
+            ports:
             - containerPort: 8081
       imagePullSecrets:
         - name: dockerhub-cred   # only if image is private

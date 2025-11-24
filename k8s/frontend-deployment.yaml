@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: monitor-frontend
-          image: <your-dockerhub-username>/dashboard-frontend:latest
+          image: ops86199/dashboard-frontend:latest
           ports:
             - containerPort: 3000
       imagePullSecrets:
