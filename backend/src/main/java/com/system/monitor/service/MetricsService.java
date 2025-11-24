@@ -7,6 +7,7 @@ import oshi.hardware.NetworkIF;
 import oshi.hardware.HardwareAbstractionLayer;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -37,7 +38,7 @@ public class MetricsService {
 
     private void updatePrevNetworkTotals() {
         long rx = 0, tx = 0;
-        NetworkIF[] nets = hal.getNetworkIFs();
+        List<NetworkIF> nets = hal.getNetworkIFs();
         if (nets != null) {
             for (NetworkIF nif : nets) {
                 try {
@@ -84,7 +85,7 @@ public class MetricsService {
 
         // Network bytes delta since last call
         long rx = 0, tx = 0;
-        NetworkIF[] nets = hal.getNetworkIFs();
+        List<NetworkIF> nets = hal.getNetworkIFs();
         if (nets != null) {
             for (NetworkIF nif : nets) {
                 try {
@@ -125,4 +126,3 @@ public class MetricsService {
         return out;
     }
 }
-
