@@ -14,7 +14,7 @@ pipeline {
             }
         }
 
-        stage ('Build Backend') {
+        stage('Build Backend') {
             steps {
                 dir('backend') {
                     sh 'mvn clean package -DskipTests'
@@ -22,45 +22,48 @@ pipeline {
             }
         }
 
-        stage('Build & Push Backend Docker Image') {
+        stage('Build & Push Docker Images') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+
                         sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
-                        sh "docker build -t $DOCKER_USER/dashboard-backend:latest backend/"
-                        sh "docker push $DOCKER_USER/dashboard-backend:latest"
+
+                        // Backend Image
+                        sh """
+                        docker build -t $DOCKER_USER/dashboard-backend:latest backend/
+                        docker push $DOCKER_USER/dashboard-backend:latest
+                        """
+
+                        // Frontend Image
+                        sh """
+                        docker build -t $DOCKER_USER/dashboard-frontend:latest frontend/
+                        docker push $DOCKER_USER/dashboard-frontend:latest
+                        """
                     }
                 }
             }
         }
 
-        stage('Build & Push Frontend Docker Image') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                        sh "docker login -u $DOCKER_USER -p $DOCKER_PASS"
-                        sh "docker build -t $DOCKER_USER/dashboard-frontend:latest frontend/"
-                        sh "docker push $DOCKER_USER/dashboard-frontend:latest"
-                    }
-                }
-            }
-        }
-
-        stage('Update kubeconfig for EKS') {
+        stage('Deploy to EKS') {
             steps {
                 withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
-                    
-                 sh '''
+
+                    sh '''
                         export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
                         export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
                         export AWS_DEFAULT_REGION=us-east-1
-                    
+
+                        echo "Updating kubeconfig..."
                         aws eks update-kubeconfig --region us-east-1 --name my-cluster
 
+                        echo "Applying Kubernetes Manifests..."
                         kubectl apply -f k8s/backend-deployment.yaml
                         kubectl apply -f k8s/backend-service.yaml
                         kubectl apply -f k8s/frontend-deployment.yaml
                         kubectl apply -f k8s/frontend-service.yaml
+
+                        echo "Deployment Completed"
                     '''
                 }
             }
@@ -69,10 +72,10 @@ pipeline {
 
     post {
         success {
-            echo "Deployment Successful!"
+            echo "Pipeline Successful! 🚀"
         }
         failure {
-            echo "Pipeline Failed!"
+            echo "Pipeline Failed ❌"
         }
     }
 }
