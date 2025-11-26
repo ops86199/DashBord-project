@@ -31,12 +31,14 @@ pipeline {
 
                         // Backend Image
                         sh """
+                        docker rmi $DOCKER_USER/dashboard-backend:latest || true
                         docker build -t $DOCKER_USER/dashboard-backend:latest backend/
                         docker push $DOCKER_USER/dashboard-backend:latest
                         """
 
                         // Frontend Image
                         sh """
+                        docker rmi $DOCKER_USER/dashboard-frontend:latest || true
                         docker build -t $DOCKER_USER/dashboard-frontend:latest frontend/
                         docker push $DOCKER_USER/dashboard-frontend:latest
                         """
