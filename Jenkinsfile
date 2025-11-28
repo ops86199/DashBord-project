@@ -47,37 +47,31 @@ pipeline {
             }
         }
 
-        stage('Deploy to EKS') {
-            steps {
-                withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
+    //     stage('Deploy to EKS') {
+    //         steps {
+    //             withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'aws-cred']]) {
 
-                    sh '''
-                        export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
-                        export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-                        export AWS_DEFAULT_REGION=us-east-1
+    //                 sh '''
+    //                     export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+    //                     export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+    //                     export AWS_DEFAULT_REGION=us-east-1
 
-                        echo "Updating kubeconfig..."
-                        aws eks update-kubeconfig --region us-east-1 --name my-cluster
+    //                     echo "Updating kubeconfig..."
+    //                     aws eks update-kubeconfig --region us-east-1 --name my-cluster
 
-                        echo "Applying Kubernetes Manifests..."
-                        kubectl apply -f k8s/backend-deployment.yaml
-                        kubectl apply -f k8s/backend-service.yaml
-                        kubectl apply -f k8s/frontend-deployment.yaml
-                        kubectl apply -f k8s/frontend-service.yaml
+    //                     echo "Applying Kubernetes Manifests..."
+    //                     kubectl apply -f k8s/backend-deployment.yaml
+    //                     kubectl apply -f k8s/backend-service.yaml
+    //                     kubectl apply -f k8s/frontend-deployment.yaml
+    //                     kubectl apply -f k8s/frontend-service.yaml
 
-                        echo "Deployment Completed"
-                    '''
-                }
-            }
-        }
+    //                     echo "Deployment Completed"
+    //                 '''
+    //             }
+    //         }
+    //     }
+    // }
+
     }
-
-    post {
-        success {
-            echo "Pipeline Successful! 🚀"
-        }
-        failure {
-            echo "Pipeline Failed ❌"
-        }
-    }
+    
 }
