@@ -14,7 +14,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         const fetchMetrics = () => {
-            fetch("http://100.31.94.94:30010/metrics/summary")
+            fetch("http://backend-svc:8081/metrics/summary")
                 .then(res => res.json())
                 .then(data => {
                     setCpu(data.cpu);
