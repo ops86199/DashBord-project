@@ -14,13 +14,13 @@ export default function Dashboard() {
 
     useEffect(() => {
         const fetchMetrics = () => {
-            fetch("http://<EC2-PUBLIC-IP>:<NODEPORT>/metrics/summary")
+            fetch("http://54.158.15.221:30010/metrics/summary")
                 .then(res => res.json())
                 .then(data => {
                     setCpu(data.cpu);
                     setMemory(data.memoryPercent);
-                    setDownload((data.downloadBytesPerSec / 1024).toFixed(1)); // KB/s
-                    setUpload((data.uploadBytesPerSec / 1024).toFixed(1));
+                    setDownload(Number((data.downloadBytesPerSec / 1024).toFixed(1))); // KB/s
+                    setUpload(Number((data.uploadBytesPerSec / 1024).toFixed(1)));
                 });
         };
 
