@@ -31,16 +31,16 @@ pipeline {
 
                         // Backend Image
                         sh """
-                        docker rmi $DOCKER_USER/dashboard-backend:latest || true
-                        docker build -t $DOCKER_USER/dashboard-backend:latest backend/
-                        docker push $DOCKER_USER/dashboard-backend:latest
+                        docker rmi $DOCKER_USER/backend:latest || true
+                        docker build -t $DOCKER_USER/backend:latest backend/
+                        docker push $DOCKER_USER/backend:latest
                         """
 
                         // Frontend Image
                         sh """
-                        docker rmi $DOCKER_USER/dashboard-frontend:latest || true
-                        docker build -t $DOCKER_USER/dashboard-frontend:latest frontend/
-                        docker push $DOCKER_USER/dashboard-frontend:latest
+                        docker rmi $DOCKER_USER/frontend:latest || true
+                        docker build -t $DOCKER_USER/frontend:latest frontend/
+                        docker push $DOCKER_USER/frontend:latest
                         """
                     }
                 }
